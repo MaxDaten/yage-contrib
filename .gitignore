@@ -1,0 +1,17 @@
+.DS_Store
+*.o
+*.hi
+*.dylib
+build/
+*.a
+Makefile
+Makefile-lib
+*.app/
+./yage
+dist/
+*.hp
+*.aux
+*.prof
+*.ps
+.cabal-sandbox
+cabal.sandbox.config
