@@ -7,6 +7,8 @@ module Yage.Prelude
     , splitEvery
 
     , module Debug.Trace
+    , module Text.Format
+    , module Text.Show
     , Prelude.show
     ) where
 
@@ -16,6 +18,8 @@ import CorePrelude
 import Text.Printf
 import System.CPUTime
 import Debug.Trace
+import Text.Format
+import Text.Show
 
 io :: (MonadIO m) => IO a -> m a
 io = liftIO
