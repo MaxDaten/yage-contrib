@@ -5,6 +5,7 @@ module Yage.Prelude
 
     -- list functions
     , splitEvery
+    , offset0
 
     , module Debug.Trace
     , module Text.Format
@@ -20,6 +21,7 @@ import System.CPUTime
 import Debug.Trace
 import Text.Format
 import Text.Show
+import Foreign.Ptr
 
 io :: (MonadIO m) => IO a -> m a
 io = liftIO
@@ -47,3 +49,13 @@ splitEvery _ [] = []
 splitEvery n list = first : (splitEvery n rest)
   where
     (first,rest) = Prelude.splitAt n list
+
+-- stolen from: Graphics-GLUtil-BufferObjects
+-- |A zero-offset 'Ptr'.
+offset0 :: Ptr a
+offset0 = offsetPtr 0
+
+-- |Produce a 'Ptr' value to be used as an offset of the given number
+-- of bytes.
+offsetPtr :: Int -> Ptr a
+offsetPtr = wordPtrToPtr . fromIntegral

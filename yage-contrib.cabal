@@ -2,7 +2,7 @@
 -- documentation, see http://haskell.org/cabal/users-guide/
 
 name:                yage-contrib
-version:             0.0.0.1
+version:             0.0.0.2
 -- synopsis:            
 -- description:         
 license:             MIT
@@ -17,6 +17,7 @@ cabal-version:       >=1.10
 
 library
   exposed-modules:     Yage.Prelude
+                       Foreign.SomeStorable
   -- other-modules:       
   -- other-extensions:    
   build-depends:       base                     >=4.6 && <4.7
