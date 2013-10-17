@@ -1,7 +1,7 @@
 module Yage.Prelude
     ( module CorePrelude
     , io
-    , traceShow', ioTime, printIOTime
+    , traceShow', traceShowS, ioTime, printIOTime
 
     -- list functions
     , splitEvery
@@ -28,6 +28,9 @@ io = liftIO
 
 traceShow' :: Show a => a -> a
 traceShow' a = traceShow a a
+
+traceShowS :: Show a => ShowS -> a -> a
+traceShowS sf a = traceShow (sf $ show a) a
 
 ioTime :: MonadIO m => m a -> m (a, Double)
 ioTime op = do
