@@ -1,6 +1,6 @@
 module Yage.Prelude
     ( module CorePrelude
-    , io
+    , io, pass
     , traceShow', traceShowS, ioTime, printIOTime
 
     -- list functions
@@ -25,6 +25,9 @@ import Foreign.Ptr
 
 io :: (MonadIO m) => IO a -> m a
 io = liftIO
+
+pass :: IO ()
+pass = return ()
 
 traceShow' :: Show a => a -> a
 traceShow' a = traceShow a a
