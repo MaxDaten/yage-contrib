@@ -7,14 +7,17 @@ module Yage.Prelude
     , splitEvery
     , offset0
 
+    , eqType
+
     , module Debug.Trace
     , module Text.Format
     , module Text.Show
-    , Prelude.show
+    , module Prelude
     ) where
 
 import qualified   Prelude
 
+import Data.Typeable
 import CorePrelude
 import Text.Printf
 import System.CPUTime
@@ -65,3 +68,6 @@ offset0 = offsetPtr 0
 -- of bytes.
 offsetPtr :: Int -> Ptr a
 offsetPtr = wordPtrToPtr . fromIntegral
+
+eqType :: (Typeable r, Typeable t) => r -> t -> Bool
+eqType r t = (typeOf r) == (typeOf t)
