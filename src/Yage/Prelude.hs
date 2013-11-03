@@ -9,6 +9,8 @@ module Yage.Prelude
 
     , eqType
 
+    , (<?), (?>)
+
     , module Debug.Trace
     , module Text.Format
     , module Text.Show
@@ -71,3 +73,10 @@ offsetPtr = wordPtrToPtr . fromIntegral
 
 eqType :: (Typeable r, Typeable t) => r -> t -> Bool
 eqType r t = (typeOf r) == (typeOf t)
+
+
+(?>) :: a -> Maybe a -> a
+l ?> mr = maybe l id mr
+
+(<?) :: Maybe a -> a -> a
+(<?) = flip (?>)

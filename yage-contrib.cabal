@@ -17,12 +17,14 @@ cabal-version:       >=1.10
 
 library
   exposed-modules:     Yage.Prelude
+                       Yage.Lens
                        Foreign.SomeStorable
   -- other-modules:       
   -- other-extensions:    
-  build-depends:       base                     <  5
+  build-depends:         base                   <  5
                        , basic-prelude          == 0.3.6.0
                        , text-format-simple     == 1.1.0
+                       , lens                   >= 3.9
   hs-source-dirs:      src
   default-language:    Haskell2010
   default-extensions:  NoImplicitPrelude
