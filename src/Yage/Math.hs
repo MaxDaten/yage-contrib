@@ -67,7 +67,7 @@ genNormals vs =
     in zipWith3 Vertex vs ns cs
 --}
 
-
+---------------------------------------------------------------------------------------------------
 
 data Rectangle = Rectangle
     { _x0, _y0, _x1, _y1 :: !Int }
