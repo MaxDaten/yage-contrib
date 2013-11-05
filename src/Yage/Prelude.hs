@@ -10,14 +10,16 @@ module Yage.Prelude
     , eqType
 
     , (<?), (?>)
+    , piz, (<$$>)
+    , isLeft, isRight
 
     , module Debug.Trace
     , module Text.Format
     , module Text.Show
-    , module Prelude
+    , module P
     ) where
 
-import qualified   Prelude
+import qualified Prelude as P
 
 import Data.Typeable
 import CorePrelude
@@ -27,6 +29,7 @@ import Debug.Trace
 import Text.Format
 import Text.Show
 import Foreign.Ptr
+import Data.List (zip)
 
 io :: (MonadIO m) => IO a -> m a
 io = liftIO
@@ -59,7 +62,7 @@ splitEvery :: Int -> [a] -> [[a]]
 splitEvery _ [] = []
 splitEvery n list = first : (splitEvery n rest)
   where
-    (first,rest) = Prelude.splitAt n list
+    (first,rest) = P.splitAt n list
 
 -- stolen from: Graphics-GLUtil-BufferObjects
 -- |A zero-offset 'Ptr'.
@@ -80,3 +83,20 @@ l ?> mr = maybe l id mr
 
 (<?) :: Maybe a -> a -> a
 (<?) = flip (?>)
+
+
+isLeft :: Either a b -> Bool
+isLeft (Left _) = True
+isLeft _        = False
+
+
+isRight :: Either a b -> Bool
+isRight (Right _)= True
+isRight _        = False
+
+
+piz = flip zip
+
+(<$$>) :: (a -> b) -> (a, a) -> (b, b)
+f <$$> (x,y) = (f x, f y) 
+
