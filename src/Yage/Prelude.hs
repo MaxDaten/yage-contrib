@@ -7,7 +7,7 @@ module Yage.Prelude
     , splitEvery
     , offset0
 
-    , eqType
+    , eqType, reverseOrder
 
     , (<?), (?>)
     , piz, (<$$>)
@@ -84,6 +84,10 @@ l ?> mr = maybe l id mr
 (<?) :: Maybe a -> a -> a
 (<?) = flip (?>)
 
+reverseOrder :: Ordering -> Ordering
+reverseOrder EQ = EQ
+reverseOrder GT = LT
+reverseOrder _  = GT
 
 isLeft :: Either a b -> Bool
 isLeft (Left _) = True

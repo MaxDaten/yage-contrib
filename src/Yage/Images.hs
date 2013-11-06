@@ -31,6 +31,12 @@ subImage sub region target
             | otherwise = True
 
 
-
 imgRectangle :: Image a -> Rectangle
 imgRectangle img = Rectangle 0 0 (imageWidth img - 1) (imageHeight img - 1)
+
+
+imageByAreaCompare :: Image a -> Image a -> Ordering
+imageByAreaCompare a b =
+    let rA = imgRectangle a
+        rB = imgRectangle b
+    in compare rA rB -- flipped to sort descending
