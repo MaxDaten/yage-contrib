@@ -1,4 +1,7 @@
-module Yage.Images where
+module Yage.Images
+  ( module Yage.Images
+  , module Codec.Picture
+  ) where
 
 
 import Yage.Prelude
@@ -39,4 +42,4 @@ imageByAreaCompare :: Image a -> Image a -> Ordering
 imageByAreaCompare a b =
     let rA = imgRectangle a
         rB = imgRectangle b
-    in compare rA rB -- flipped to sort descending
+    in compare rA rB

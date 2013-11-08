@@ -7,7 +7,7 @@ module Yage.Prelude
     , splitEvery
     , offset0
 
-    , eqType, reverseOrder
+    , eqType, descending
 
     , (<?), (?>)
     , piz, (<$$>)
@@ -16,6 +16,7 @@ module Yage.Prelude
     , module Debug.Trace
     , module Text.Format
     , module Text.Show
+    , module FilePath
     , module P
     ) where
 
@@ -30,6 +31,7 @@ import Text.Format
 import Text.Show
 import Foreign.Ptr
 import Data.List (zip)
+import Filesystem.Path.CurrentOS as FilePath (encodeString, decodeString)
 
 io :: (MonadIO m) => IO a -> m a
 io = liftIO
@@ -84,10 +86,8 @@ l ?> mr = maybe l id mr
 (<?) :: Maybe a -> a -> a
 (<?) = flip (?>)
 
-reverseOrder :: Ordering -> Ordering
-reverseOrder EQ = EQ
-reverseOrder GT = LT
-reverseOrder _  = GT
+descending :: (a -> a -> Ordering) -> (a -> a -> Ordering)
+descending cmp = flip cmp
 
 isLeft :: Either a b -> Bool
 isLeft (Left _) = True
