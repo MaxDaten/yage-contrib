@@ -1,12 +1,20 @@
 {-# LANGUAGE ExistentialQuantification #-}
 {-# LANGUAGE DeriveDataTypeable        #-}
-module Foreign.SomeStorable where
+module Foreign.Storable.Utils where
 
 import Yage.Prelude
 
 import Foreign.Storable
 import Foreign.Ptr
 import Data.Typeable
+
+
+instance Storable () where
+    sizeOf _ = 0
+    peek _ = return ()
+    alignment _ = 0
+    poke _ _ = return () 
+
 
 data SomeStorable = forall s. (Storable s, Typeable s) => SomeStorable s
     deriving (Typeable)

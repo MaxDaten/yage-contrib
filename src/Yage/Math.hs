@@ -94,7 +94,6 @@ instance Ord Rectangle where
         in compare (w1*h1) (w2*h2)
 
 
-
 fits :: Rectangle -> Rectangle -> Bool
 fits rect1 rect2 = rect1^.to width <= rect2^.to width && 
                    rect1^.to height <= rect2^.to height
