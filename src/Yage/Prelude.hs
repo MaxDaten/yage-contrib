@@ -17,21 +17,24 @@ module Yage.Prelude
     , module Text.Format
     , module Text.Show
     , module FilePath
-    , module P
+    , module Lens
+    , module Prelude
     ) where
 
-import qualified Prelude as P
+import qualified Prelude                   as Prelude
 
-import Data.Typeable
-import CorePrelude
-import Text.Printf
-import System.CPUTime
-import Debug.Trace
-import Text.Format
-import Text.Show
-import Foreign.Ptr
-import Data.List (zip)
-import Filesystem.Path.CurrentOS as FilePath (encodeString, decodeString)
+import           Yage.Lens                 as Lens hiding ((<.>))
+
+import           CorePrelude
+import           Data.List                 (zip)
+import           Debug.Trace
+import           Filesystem.Path.CurrentOS as FilePath (decodeString,
+                                                        encodeString)
+import           Foreign.Ptr
+import           System.CPUTime
+import           Text.Format
+import           Text.Printf
+import           Text.Show
 
 io :: (MonadIO m) => IO a -> m a
 io = liftIO
@@ -46,9 +49,9 @@ traceShowS :: Show a => ShowS -> a -> a
 traceShowS sf a = traceShow (sf $ show a) a
 
 ioTime :: MonadIO m => m a -> m (a, Double)
-ioTime op = do
+ioTime action = do
     start <- io $! getCPUTime
-    v <- op
+    v <- action
     end <- io $! getCPUTime
     let diff = (fromIntegral (end - start)) / (10^12)
     return $! (v, diff)
@@ -64,7 +67,7 @@ splitEvery :: Int -> [a] -> [[a]]
 splitEvery _ [] = []
 splitEvery n list = first : (splitEvery n rest)
   where
-    (first,rest) = P.splitAt n list
+    (first,rest) = Prelude.splitAt n list
 
 -- stolen from: Graphics-GLUtil-BufferObjects
 -- |A zero-offset 'Ptr'.
@@ -99,8 +102,10 @@ isRight (Right _)= True
 isRight _        = False
 
 
+-- | flipped version of zip
 piz = flip zip
 
+-- | infix operator to apply a function f to both values of a tuple
 (<$$>) :: (a -> b) -> (a, a) -> (b, b)
-f <$$> (x,y) = (f x, f y) 
+f <$$> (x,y) = (f x, f y)
 
