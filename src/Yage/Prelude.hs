@@ -105,6 +105,7 @@ isRight _        = False
 -- | flipped version of zip
 piz = flip zip
 
+infixl 4 <$$>
 -- | infix operator to apply a function f to both values of a tuple
 (<$$>) :: (a -> b) -> (a, a) -> (b, b)
 f <$$> (x,y) = (f x, f y)
