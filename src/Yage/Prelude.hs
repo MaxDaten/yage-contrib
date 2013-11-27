@@ -1,3 +1,4 @@
+{-# OPTIONS_GHC -fno-warn-type-defaults #-}
 module Yage.Prelude
     ( module CorePrelude
     , io, pass
@@ -63,14 +64,14 @@ ioTime action = do
 printIOTime :: MonadIO m => m a -> m a
 printIOTime f = do
     (res, t) <- ioTime f
-    io $! printf "Computation time: %0.5f sec\n" t
+    _ <- io $! printf "Computation time: %0.5f sec\n" t
     return res
 
 splitEvery :: Int -> [a] -> [[a]]
 splitEvery _ [] = []
-splitEvery n list = first : (splitEvery n rest)
+splitEvery n list = frst : (splitEvery n rest)
   where
-    (first,rest) = Prelude.splitAt n list
+    (frst,rest) = Prelude.splitAt n list
 
 -- stolen from: Graphics-GLUtil-BufferObjects
 -- |A zero-offset 'Ptr'.
@@ -106,6 +107,7 @@ isRight _        = False
 
 
 -- | flipped version of zip
+piz :: [b] -> [a] -> [(a, b)]
 piz = flip zip
 
 infixl 4 <$$>

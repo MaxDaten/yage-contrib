@@ -7,15 +7,14 @@ module Yage.Images
 import Yage.Prelude
 import Yage.Math
 
-import Control.Lens
 import Codec.Picture
 
 
 subImage :: (Pixel a) => Image a -> Rectangle -> Image a -> Image a
 subImage sub region target 
-    | check = generateImage (includeRegionImg sub region target) (imageWidth target) (imageHeight target)
+    | check = generateImage includeRegionImg (imageWidth target) (imageHeight target)
     where
-        includeRegionImg sub region target x y 
+        includeRegionImg x y 
             | inRectangle x y region = pixelAt sub (x - region^.x0) (y - region^.y0) 
             | otherwise              = pixelAt target x y
         

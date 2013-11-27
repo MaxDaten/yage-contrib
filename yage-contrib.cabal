@@ -13,11 +13,19 @@ maintainer:          maxdaten@gmail.com
 category:            Graphics
 build-type:          Simple
 -- extra-source-files:  
-cabal-version:       >=1.10
+cabal-version:       >=1.18
 
+
+Flag dev
+    Description:   Turn on development settings, logging and timing.
+    Default:       False
 
 Flag library-only
     Description:   Build only the yage-lib
+    Default:       True
+
+Flag perf
+    Description:   Perform a optimized build
     Default:       True
 
 library
@@ -27,6 +35,15 @@ library
                        Yage.Text
                        Yage.Images
                        Foreign.Storable.Utils
+
+  If flag(perf)
+    ghc-options:        -threaded -O2
+  Else
+    ghc-options:        -threaded -O0
+
+  if flag(dev)
+    ghc-options:        -Wall
+  
   -- other-modules:       
   -- other-extensions:    
   build-depends:         base                   <  5

@@ -3,7 +3,6 @@
 module Yage.Math where
 
 import Yage.Prelude
-import Control.Lens
 import Data.List (map)
 import Linear (V2(..), V3(..), V4(..), M33, M44, cross, normalize, Epsilon)
 
