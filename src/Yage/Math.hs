@@ -1,25 +1,26 @@
 {-# LANGUAGE TemplateHaskell #-}
 {-# OPTIONS_GHC -fno-warn-missing-signatures #-}
-module Yage.Math where
+module Yage.Math
+    ( module Yage.Math
+    , module Linear
+    ) where
 
 import Yage.Prelude
 import Data.List (map)
-import Linear (V2(..), V3(..), V4(..), M33, M44, cross, normalize, Epsilon)
+import Data.Foldable (Foldable, any)
+import Linear
 
-zero, one :: (Floating a) => a
-zero = 0.0
-one  = 1.0
 
 uv00, uv01, uv10, uv11 :: (Floating a) => V2 a
-uv00  = V2 zero zero 
-uv01  = V2 zero one
-uv10  = V2 one zero
-uv11  = V2 one one
+uv00  = 0 
+uv01  = V2 0 1
+uv10  = V2 1 0
+uv11  = 1
 
 xAxis, yAxis, zAxis :: (Floating a) => V3 a
-xAxis = V3 one zero zero
-yAxis = V3 zero one zero
-zAxis = V3 zero zero one
+xAxis = V3 1 0 0
+yAxis = V3 0 1 0
+zAxis = V3 0 0 1
 
 type Normal a = V3 a
 -- | a plain in 3d space in plain normal form 
@@ -65,6 +66,9 @@ genNormals vs =
         cs = repeat color
     in zipWith3 Vertex vs ns cs
 --}
+
+isValid :: (RealFloat a, Foldable f) => f a -> Bool
+isValid a = any (\b -> isNaN b || isInfinite b) a
 
 ---------------------------------------------------------------------------------------------------
 
