@@ -10,14 +10,7 @@ import Data.List (map)
 import Data.Foldable (Foldable, any)
 import Linear
 
-
-uv00, uv01, uv10, uv11 :: (Floating a) => V2 a
-uv00  = 0 
-uv01  = V2 0 1
-uv10  = V2 1 0
-uv11  = 1
-
-xAxis, yAxis, zAxis :: (Floating a) => V3 a
+xAxis, yAxis, zAxis :: (Fractional a) => V3 a
 xAxis = V3 1 0 0
 yAxis = V3 0 1 0
 zAxis = V3 0 0 1
