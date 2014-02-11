@@ -6,6 +6,7 @@ module Yage.Prelude
 
     -- list functions
     , splitEvery
+    , shift
     , offset0
 
     , eqType, descending
@@ -72,6 +73,11 @@ splitEvery _ [] = []
 splitEvery n list = frst : (splitEvery n rest)
   where
     (frst,rest) = Prelude.splitAt n list
+
+
+shift :: [a] -> [a]
+shift list = Prelude.last list : Prelude.init list
+
 
 -- stolen from: Graphics-GLUtil-BufferObjects
 -- |A zero-offset 'Ptr'.
