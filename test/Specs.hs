@@ -4,11 +4,14 @@
 
 module Main where
 import Test.Hspec (hspec, describe)
-import StorableVertexTest
 import MathNormalTest
+import VectorInterleaveTest
 
 main :: IO ()
 main = do
     hspec $ do
         describe "calculate correct normals" $ do
             normalCalculation
+
+        describe "interleave vector" $ do
+            interleaveVectors

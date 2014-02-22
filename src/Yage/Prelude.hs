@@ -5,14 +5,12 @@ module Yage.Prelude
     , traceShow', traceShowS, traceShowS', ioTime, printIOTime
 
     -- list functions
-    , splitEvery
-    , shift
     , offset0
 
     , eqType, descending
 
     , (<?), (?>)
-    , piz, (<$$>)
+    , (<$$>)
     , isLeft, isRight
 
     , module Debug.Trace
@@ -26,9 +24,8 @@ module Yage.Prelude
 import qualified Prelude                   as Prelude
 
 import           Yage.Lens                 as Lens hiding ((<.>))
-
 import           CorePrelude
-import           Data.List                 (zip)
+import           Data.Typeable
 import           Debug.Trace
 import           Filesystem.Path.CurrentOS as FilePath (decodeString,
                                                         encodeString)
@@ -68,16 +65,6 @@ printIOTime f = do
     _ <- io $! printf "Computation time: %0.5f sec\n" t
     return res
 
-splitEvery :: Int -> [a] -> [[a]]
-splitEvery _ [] = []
-splitEvery n list = frst : (splitEvery n rest)
-  where
-    (frst,rest) = Prelude.splitAt n list
-
-
-shift :: [a] -> [a]
-shift list = Prelude.last list : Prelude.init list
-
 
 -- stolen from: Graphics-GLUtil-BufferObjects
 -- |A zero-offset 'Ptr'.
@@ -89,7 +76,7 @@ offset0 = offsetPtr 0
 offsetPtr :: Int -> Ptr a
 offsetPtr = wordPtrToPtr . fromIntegral
 
-eqType :: (Typeable r, Typeable t) => r -> t -> Bool
+eqType :: (Typeable r, Typeable t) => Proxy r -> Proxy t -> Bool
 eqType r t = (typeOf r) == (typeOf t)
 
 
@@ -111,10 +98,6 @@ isRight :: Either a b -> Bool
 isRight (Right _)= True
 isRight _        = False
 
-
--- | flipped version of zip
-piz :: [b] -> [a] -> [(a, b)]
-piz = flip zip
 
 infixl 4 <$$>
 -- | infix operator to apply a function f to both values of a tuple

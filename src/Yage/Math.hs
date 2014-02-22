@@ -6,7 +6,7 @@ module Yage.Math
     ) where
 
 import Yage.Prelude
-import Data.List (map)
+import Yage.Data.List hiding (any)
 import Data.Foldable (Foldable, any)
 import Linear
 
@@ -15,14 +15,21 @@ xAxis = V3 1 0 0
 yAxis = V3 0 1 0
 zAxis = V3 0 0 1
 
-type Normal a = V3 a
 -- | a plain in 3d space in plain normal form 
-type Plain3DNF a = (Normal a, V3 a, V3 a)
+type Plain3DNF a = (V3 a, V3 a, V3 a)
 
 infixl 7 ><
 
 (><):: Num a => V3 a -> V3 a -> V3 a
 (><) = cross
+
+-- | Convert degrees to radians.
+deg2rad :: RealFloat a => a -> a
+deg2rad x = x * pi / 180
+
+
+rad2deg :: RealFloat a => a -> a
+rad2deg x = x * 180 / pi
 
 fromTransformation :: M44 a -> M33 a
 fromTransformation
@@ -48,7 +55,7 @@ plainNormalForm v1 v2 v3 =
 
 -- possible not the fastest implementation
 normals :: (Num a, Floating a, Epsilon a) => [V3 a] -> [V3 a]
-normals vs = map norms $ splitEvery 3 vs
+normals vs = map norms $ chunksOf 3 vs
     where
         norms (a:b:c:[]) = (plainNormalForm a b c)^._1
 
@@ -100,9 +107,9 @@ dimMatches a b =
     a^.to height == b^.to height
 
 inBound :: Rectangle -> Rectangle -> Bool
-inBound inner outer = 
-    inner^.x1 <= outer^.x1 && inner^.x0 >= outer^.x0 &&
-    inner^.y1 <= outer^.y1 && inner^.y0 >= outer^.y0
+inBound inRec outRec = 
+    inRec^.x1 <= outRec^.x1 && inRec^.x0 >= outRec^.x0 &&
+    inRec^.y1 <= outRec^.y1 && inRec^.y0 >= outRec^.y0
 
 
 inRectangle :: Int -> Int -> Rectangle -> Bool
