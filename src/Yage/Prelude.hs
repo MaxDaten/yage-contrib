@@ -1,6 +1,6 @@
 {-# OPTIONS_GHC -fno-warn-type-defaults #-}
 module Yage.Prelude
-    ( module CorePrelude
+    ( module ClassyPrelude
     , io, pass
     , traceShow', traceShowS, traceShowS', ioTime, printIOTime
 
@@ -13,20 +13,16 @@ module Yage.Prelude
     , (<$$>)
     , isLeft, isRight
 
-    , module Debug.Trace
     , module Text.Format
     , module Text.Show
     , module FilePath
-    , module Lens
     , module Prelude
     ) where
 
 import qualified Prelude                   as Prelude
 
-import           Yage.Lens                 as Lens hiding ((<.>))
-import           CorePrelude
+import           ClassyPrelude
 import           Data.Typeable
-import           Debug.Trace
 import           Filesystem.Path.CurrentOS as FilePath (decodeString,
                                                         encodeString)
 import           Foreign.Ptr

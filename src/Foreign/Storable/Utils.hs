@@ -26,7 +26,7 @@ instance Show SomeStorable where
 instance Storable SomeStorable where
     sizeOf (SomeStorable s) = sizeOf s
     alignment (SomeStorable s) = alignment s
-    --peek = peek
+    peek = error "peek not implemented for SomeStorable"
     poke ptr (SomeStorable s) = poke (castPtr ptr) s
 
 

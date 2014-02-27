@@ -1,4 +1,5 @@
 {-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE TypeFamilies    #-}
 {-# OPTIONS_GHC -fno-warn-missing-signatures #-}
 module Yage.Math
     ( module Yage.Math
@@ -6,8 +7,8 @@ module Yage.Math
     ) where
 
 import Yage.Prelude
-import Yage.Data.List hiding (any)
-import Data.Foldable (Foldable, any)
+import Yage.Lens
+import Yage.Data.List hiding (any, map)
 import Linear
 
 xAxis, yAxis, zAxis :: (Fractional a) => V3 a
@@ -67,7 +68,8 @@ genNormals vs =
     in zipWith3 Vertex vs ns cs
 --}
 
-isValid :: (RealFloat a, Foldable f) => f a -> Bool
+-- isValid :: (RealFloat c, MonoFoldable c) => c -> Bool
+isValid :: (MonoFoldable c, RealFloat t, Element c ~ t) => c -> Bool
 isValid a = any (\b -> isNaN b || isInfinite b) a
 
 ---------------------------------------------------------------------------------------------------

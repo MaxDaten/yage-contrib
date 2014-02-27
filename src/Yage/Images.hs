@@ -6,6 +6,7 @@ module Yage.Images
 
 import Yage.Prelude
 import Yage.Math
+import Yage.Lens
 
 import Codec.Picture
 
