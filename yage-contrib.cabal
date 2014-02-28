@@ -55,7 +55,7 @@ library
                        , classy-prelude         == 0.8.*
                        , text-format-simple     == 1.1.0
                        , text-format            >= 0.3
-                       , vinyl                  == 0.2
+                       , vinyl                  == 0.2.*
                        , bytestring             == 0.10.*
                        , lens                   >= 3.9
                        , linear                 >= 1.3

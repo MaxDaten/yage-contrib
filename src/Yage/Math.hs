@@ -32,6 +32,9 @@ deg2rad x = x * pi / 180
 rad2deg :: RealFloat a => a -> a
 rad2deg x = x * 180 / pi
 
+clamp :: Ord a => a -> a -> a -> a
+clamp upper lower = max lower . min upper
+
 fromTransformation :: M44 a -> M33 a
 fromTransformation
     (V4 (V4 a b c _)
