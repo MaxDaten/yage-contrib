@@ -1,6 +1,6 @@
+{-# OPTIONS_GHC -fno-warn-missing-signatures -fno-warn-orphans #-}
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE TypeFamilies    #-}
-{-# OPTIONS_GHC -fno-warn-missing-signatures #-}
 module Yage.Math
     ( module Yage.Math
     , module Linear
@@ -9,7 +9,9 @@ module Yage.Math
 import Yage.Prelude
 import Yage.Lens
 import Yage.Data.List hiding (any, map)
+import Data.Binary
 import Linear
+import Linear.Binary
 
 xAxis, yAxis, zAxis :: (Fractional a) => V3 a
 xAxis = V3 1 0 0
@@ -121,3 +123,16 @@ inRectangle :: Int -> Int -> Rectangle -> Bool
 inRectangle x y rect =
     x >= rect^.x0 && x <= rect^.x1 &&
     y >= rect^.y0 && y <= rect^.y1
+
+
+instance Binary a => Binary (V1 a) where
+    put = putLinear
+    get = getLinear
+
+instance Binary a => Binary (V2 a) where
+    put = putLinear
+    get = getLinear
+
+instance Binary a => Binary (V3 a) where
+    put = putLinear
+    get = getLinear

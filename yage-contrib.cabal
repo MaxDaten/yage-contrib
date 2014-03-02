@@ -39,6 +39,7 @@ library
                        Data.Vinyl.Binary
                        Data.Digest.XXHash
                        Foreign.Storable.Utils
+                       Foreign.C.Types.Binary
 
   If flag(perf)
     ghc-options:        -threaded -O2

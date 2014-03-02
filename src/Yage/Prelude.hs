@@ -1,4 +1,5 @@
-{-# OPTIONS_GHC -fno-warn-type-defaults #-}
+{-# OPTIONS_GHC -fno-warn-type-defaults -fno-warn-orphans #-}
+{-# LANGUAGE StandaloneDeriving #-}
 module Yage.Prelude
     ( module ClassyPrelude
     , io, pass
@@ -12,6 +13,7 @@ module Yage.Prelude
     , (<?), (?>)
     , (<$$>)
     , isLeft, isRight
+    , Identity()
 
     , module Text.Format
     , module Text.Show
@@ -20,9 +22,10 @@ module Yage.Prelude
     ) where
 
 import qualified Prelude                   as Prelude
-
 import           ClassyPrelude
 import           Data.Typeable
+import           Data.Functor.Identity
+
 import           Filesystem.Path.CurrentOS as FilePath (decodeString,
                                                         encodeString)
 import           Foreign.Ptr
@@ -100,3 +103,5 @@ infixl 4 <$$>
 (<$$>) :: (a -> b) -> (a, a) -> (b, b)
 f <$$> (x,y) = (f x, f y)
 
+
+deriving instance (Eq a) => Eq (Identity a)
