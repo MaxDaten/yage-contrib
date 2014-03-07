@@ -6,9 +6,9 @@ module Yage.Math
     , module Linear
     ) where
 
-import Yage.Prelude
+import Yage.Prelude hiding ((++))
 import Yage.Lens
-import Yage.Data.List hiding (any, map)
+import Yage.Data.List hiding (any, map, sum)
 import Data.Binary
 import Linear
 import Linear.Binary
@@ -64,6 +64,22 @@ normals :: (Num a, Floating a, Epsilon a) => [V3 a] -> [V3 a]
 normals vs = map norms $ chunksOf 3 vs
     where
         norms (a:b:c:[]) = (plainNormalForm a b c)^._1
+
+
+-- | normalized sum vector
+averageNorm :: (Num (f a), Epsilon a, Metric f, Floating a) => [f a] -> f a
+averageNorm = normalize . sum
+
+-- | uses the Gram-Schmidt to create a orthogonal basis 
+orthogonalize :: (Num a, Show a) => V3 (V3 a) -> V3 (V3 a)
+orthogonalize (V3 n t b) =
+    let t' = t - (n `dot` t)*^n
+        b' = b - (n `dot` b)*^n - (t' `dot` b)*^t'
+    in V3 n t' b'
+
+
+orthonormalize :: (Num a, Epsilon a, Floating a, Show a) => V3 (V3 a) -> V3 (V3 a)
+orthonormalize = fmap normalize . orthogonalize
 
 {--
 genNormals :: (Num a, Show a, Floating a) => [V3 a] -> [V3 a]
