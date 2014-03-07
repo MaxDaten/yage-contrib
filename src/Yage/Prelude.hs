@@ -3,7 +3,7 @@
 module Yage.Prelude
     ( module ClassyPrelude
     , io, pass
-    , traceShow', traceShowS, traceShowS', ioTime, printIOTime
+    , traceShow', traceShowS, traceShowS', ioTime, printIOTime, traceWith
 
     -- list functions
     , offset0
@@ -48,6 +48,9 @@ traceShowS sf a = traceShow (sf $ show a) a
 
 traceShowS' :: Show a => String -> a -> a
 traceShowS' msg = traceShowS (msg Prelude.++)
+
+traceWith :: Show b => (a -> b) -> a -> a
+traceWith f a = traceShow (f a) a
 
 ioTime :: MonadIO m => m a -> m (a, Double)
 ioTime action = do
