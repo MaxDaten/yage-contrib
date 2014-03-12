@@ -52,11 +52,13 @@ traceShowS' msg = traceShowS (msg Prelude.++)
 traceWith :: Show b => (a -> b) -> a -> a
 traceWith f a = traceShow (f a) a
 
+
+-- | time a monadic action in seconds, the monadic value is strict evaluated
 ioTime :: MonadIO m => m a -> m (a, Double)
 ioTime action = do
     start <- io $! getCPUTime
     v <- action
-    end <- io $! getCPUTime
+    end <- v `seq` io $! getCPUTime
     let diff = (fromIntegral (end - start)) / (10^12)
     return $! (v, diff)
 
