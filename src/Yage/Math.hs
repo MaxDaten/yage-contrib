@@ -71,14 +71,14 @@ averageNorm :: (Num (f a), Epsilon a, Metric f, Floating a) => [f a] -> f a
 averageNorm = normalize . sum
 
 -- | uses the Gram-Schmidt to create a orthogonal basis 
-orthogonalize :: (Num a, Show a) => V3 (V3 a) -> V3 (V3 a)
+orthogonalize :: (Num a) => V3 (V3 a) -> V3 (V3 a)
 orthogonalize (V3 n t b) =
     let t' = t - (n `dot` t)*^n
         b' = b - (n `dot` b)*^n - (t' `dot` b)*^t'
     in V3 n t' b'
 
 
-orthonormalize :: (Num a, Epsilon a, Floating a, Show a) => V3 (V3 a) -> V3 (V3 a)
+orthonormalize :: (Num a, Epsilon a, Floating a) => V3 (V3 a) -> V3 (V3 a)
 orthonormalize = fmap normalize . orthogonalize
 
 {--
