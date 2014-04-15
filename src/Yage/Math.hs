@@ -63,7 +63,7 @@ plainNormalForm v1 v2 v3 =
 normals :: (Num a, Floating a, Epsilon a) => [V3 a] -> [V3 a]
 normals vs = map norms $ chunksOf 3 vs
     where
-        norms (a:b:c:[]) = (plainNormalForm a b c)^._1
+    norms (a:b:c:[]) = (plainNormalForm a b c)^._1
 
 
 -- | normalized sum vector
@@ -94,53 +94,6 @@ isValid :: (MonoFoldable c, RealFloat t, Element c ~ t) => c -> Bool
 isValid a = any (\b -> isNaN b || isInfinite b) a
 
 ---------------------------------------------------------------------------------------------------
-
-data Rectangle = Rectangle
-    { _x0, _y0, _x1, _y1 :: !Int }
-    deriving (Show)
-makeLenses ''Rectangle
-
-width rect  = rect^.x1 - rect^.x0 + 1
-height rect = rect^.y1 - rect^.y0 + 1
-
-instance Eq Rectangle where
-    r1 == r2 = 
-       r1^.x0 == r2^.x0 && 
-       r1^.y0 == r2^.y0 &&
-       r1^.x1 == r2^.x1 &&
-       r1^.y1 == r2^.y1
-
-
-instance Ord Rectangle where
-    compare r1 r2 = 
-        let w1 = r1^.to width
-            h1 = r1^.to height
-            w2 = r2^.to width
-            h2 = r2^.to height
-        in compare (w1*h1) (w2*h2)
-
-
-fits :: Rectangle -> Rectangle -> Bool
-fits rect1 rect2 = rect1^.to width <= rect2^.to width && 
-                   rect1^.to height <= rect2^.to height
-
-dimMatches :: Rectangle -> Rectangle -> Bool
-dimMatches a b =
-    a^.to width  == b^.to width &&
-    a^.to height == b^.to height
-
-inBound :: Rectangle -> Rectangle -> Bool
-inBound inRec outRec = 
-    inRec^.x1 <= outRec^.x1 && inRec^.x0 >= outRec^.x0 &&
-    inRec^.y1 <= outRec^.y1 && inRec^.y0 >= outRec^.y0
-
-
-inRectangle :: Int -> Int -> Rectangle -> Bool
-inRectangle x y rect =
-    x >= rect^.x0 && x <= rect^.x1 &&
-    y >= rect^.y0 && y <= rect^.y1
-
-
 instance Binary a => Binary (V1 a) where
     put = putLinear
     get = getLinear

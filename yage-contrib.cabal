@@ -31,12 +31,15 @@ Flag perf
 library
   exposed-modules:     Yage.Prelude
                        Yage.Lens
+                       
                        Yage.Math
+
                        Yage.Text
                        Yage.Data.List
-                       Yage.Images
                        Data.Vector.Storable.Extras
-                       Data.Vinyl.Binary
+                       
+                       Data.Vinyl.Instances
+                       
                        Data.Digest.XXHash
                        Foreign.Storable.Utils
                        Foreign.C.Types.Binary
@@ -57,7 +60,7 @@ library
                        , text-format-simple     == 1.1.0
                        , text-format            >= 0.3
                        , text                   == 1.1.*
-                       , vinyl                  == 0.2.*
+                       , vinyl                  == 0.3.*
                        , bytestring             == 0.10.*
                        , bytestring-trie        == 0.2.*
                        , lens                   >= 3.9

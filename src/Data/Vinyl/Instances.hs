@@ -5,17 +5,22 @@
 {-# LANGUAGE TypeOperators     #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE FlexibleContexts  #-}
-module Data.Vinyl.Binary () where
+-- | orphan instances for vinyl
+module Data.Vinyl.Instances () where
+
+import Yage.Prelude (Eq(..))
+
+import Control.Monad
 
 import Data.Binary
 import Data.Vinyl
-import Control.Monad
-import Data.Functor.Identity
+import Data.Vinyl.Idiom.Identity
 
 
 instance Binary (PlainRec '[]) where
   put RNil = return ()
   get = return RNil
+
 
 instance (Binary t, Binary (PlainRec fs)) => Binary (PlainRec ((sy ::: t) ': fs)) where
   put (Identity !x :& xs) = put x >> put xs
@@ -23,3 +28,6 @@ instance (Binary t, Binary (PlainRec fs)) => Binary (PlainRec ((sy ::: t) ': fs)
     x <- get
     xs <- get
     return (Identity x :& xs)
+
+instance Eq a => Eq (Identity a) where
+    (Identity a) == (Identity b) = a == b
