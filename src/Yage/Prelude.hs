@@ -12,7 +12,6 @@ module Yage.Prelude
     , eqType, descending
 
     , (<?), (?>)
-    , (<$$>)
     , isLeft, isRight
     , Identity()
 
@@ -107,14 +106,6 @@ isRight :: Either a b -> Bool
 isRight (Right _)= True
 isRight _        = False
 
-
-infixl 4 <$$>
--- | infix operator to apply a function f to both values of a tuple
-(<$$>) :: (a -> b) -> (a, a) -> (b, b)
-f <$$> (x,y) = (f x, f y)
-
-
-deriving instance (Eq a) => Eq (Identity a)
 
 zipWithTF :: (Traversable t, Foldable f) => (a -> b -> c) -> t a -> f b -> t c
 zipWithTF g t f = snd (mapAccumL map_one (Fold.toList f) t)

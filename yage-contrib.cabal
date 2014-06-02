@@ -58,10 +58,11 @@ library
   -- other-modules:       
   -- other-extensions:    
   build-depends:         base                   <  5
+  -- important to stick with a concrete prelude version
+                       , classy-prelude         == 0.9.2
                        , transformers           == 0.3.*
                        , mtl                    == 2.1.*
                        , primitive              == 0.5.*
-                       , classy-prelude         == 0.8.*
                        , text-format-simple     == 1.1.0
                        , text-format            >= 0.3
                        , text                   == 1.1.*

@@ -11,7 +11,6 @@ import Yage.Lens
 import Yage.Data.List hiding (any, map, sum)
 import Data.Binary
 import Linear
-import Linear.Binary
 
 xAxis, yAxis, zAxis :: (Fractional a) => V3 a
 xAxis = V3 1 0 0
@@ -64,6 +63,7 @@ normals :: (Num a, Floating a, Epsilon a) => [V3 a] -> [V3 a]
 normals vs = map norms $ chunksOf 3 vs
     where
     norms (a:b:c:[]) = (plainNormalForm a b c)^._1
+    norms _ = error "Yage.Math.normals"
 
 
 -- | normalized sum vector
