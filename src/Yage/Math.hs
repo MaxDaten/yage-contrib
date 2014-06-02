@@ -105,3 +105,7 @@ instance Binary a => Binary (V2 a) where
 instance Binary a => Binary (V3 a) where
     put = putLinear
     get = getLinear
+
+instance Binary a => Binary (V4 a) where
+    put = putLinear
+    get = getLinear

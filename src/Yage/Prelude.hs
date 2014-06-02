@@ -6,6 +6,7 @@ module Yage.Prelude
     , traceShow', traceShowS, traceShowS', ioTime, printIOTime, traceWith
 
     -- list functions
+    , zipWithTF
     , offset0
 
     , eqType, descending
@@ -18,13 +19,17 @@ module Yage.Prelude
     , module Text.Format
     , module Text.Show
     , module FilePath
+    , module Default
     , module Prelude
     ) where
 
 import qualified Prelude                   as Prelude
 import           ClassyPrelude
 import           Data.Typeable
+import           Data.Traversable          as Trav
+import           Data.Foldable             as Fold
 import           Data.Functor.Identity
+import           Data.Default              as Default
 
 import           Filesystem.Path.CurrentOS as FilePath (decodeString,
                                                         encodeString)
@@ -110,3 +115,8 @@ f <$$> (x,y) = (f x, f y)
 
 
 deriving instance (Eq a) => Eq (Identity a)
+
+zipWithTF :: (Traversable t, Foldable f) => (a -> b -> c) -> t a -> f b -> t c
+zipWithTF g t f = snd (mapAccumL map_one (Fold.toList f) t)
+  where map_one (x:xs) y = (xs, g y x)
+        map_one _ _ = error "Yage.Prelude.zipWithTF"

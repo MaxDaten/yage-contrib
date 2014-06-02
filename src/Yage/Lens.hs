@@ -1,13 +1,15 @@
+{-# OPTIONS_GHC -fno-warn-orphans #-}
 {-# LANGUAGE TypeFamilies #-}
 module Yage.Lens (
       module Yage.Lens
     , module Lens
     ) where
 
-import Prelude (id, const)
+import Prelude (id, const, flip)
 import Data.Maybe
 import Data.Trie as Trie
 import Data.ByteString
+import Control.Monad.State (execState, State)
 
 import Control.Applicative (pure)
 
@@ -37,3 +39,7 @@ instance At (Trie a) where
     Just v' -> Trie.insert k v' m
     where mv = Trie.lookup k m
   {-# INLINE at #-}
+
+
+update :: a -> State a m -> a
+update = flip execState

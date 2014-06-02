@@ -39,10 +39,13 @@ library
                        Data.Vector.Storable.Extras
                        
                        Data.Vinyl.Instances
+                       Data.Vinyl.Utils
                        
                        Data.Digest.XXHash
                        Foreign.Storable.Utils
                        Foreign.C.Types.Binary
+
+                       JuicySRGB
 
   If flag(perf)
     ghc-options:        -threaded -O2
@@ -56,6 +59,8 @@ library
   -- other-extensions:    
   build-depends:         base                   <  5
                        , transformers           == 0.3.*
+                       , mtl                    == 2.1.*
+                       , primitive              == 0.5.*
                        , classy-prelude         == 0.8.*
                        , text-format-simple     == 1.1.0
                        , text-format            >= 0.3
@@ -68,9 +73,11 @@ library
                        , vector                 >= 0.10
                        , binary                 == 0.7.*
                        , system-filepath        == 0.4.*
+                       , data-default
 
                        , split                  >= 0.2
                        , JuicyPixels            >= 3.1
+                       , colour                 == 2.3.*
                        , xxhash                 == 0.0.1
 
   hs-source-dirs:      src
