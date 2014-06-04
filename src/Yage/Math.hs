@@ -71,15 +71,16 @@ averageNorm :: (Num (f a), Epsilon a, Metric f, Floating a) => [f a] -> f a
 averageNorm = normalize . sum
 
 -- | uses the Gram-Schmidt to create a orthogonal basis 
-orthogonalize :: (Num a) => V3 (V3 a) -> V3 (V3 a)
-orthogonalize (V3 n t b) =
+orthogonalize :: (Num a) => (M33 a) -> (M33 a)
+orthogonalize (V3 t b n) =
     let t' = t - (n `dot` t)*^n
         b' = b - (n `dot` b)*^n - (t' `dot` b)*^t'
-    in V3 n t' b'
+    in V3 t' b' n
 
 
-orthonormalize :: (Num a, Epsilon a, Floating a) => V3 (V3 a) -> V3 (V3 a)
+orthonormalize :: (Num a, Epsilon a, Floating a) => M33 a -> M33 a
 orthonormalize = fmap normalize . orthogonalize
+
 
 {--
 genNormals :: (Num a, Show a, Floating a) => [V3 a] -> [V3 a]
@@ -109,3 +110,29 @@ instance Binary a => Binary (V3 a) where
 instance Binary a => Binary (V4 a) where
     put = putLinear
     get = getLinear
+
+
+{--
+OpenGL Alias
+--}
+
+-- Textures Coords
+
+_s :: R1 t => Lens' (t a) a
+_s = _x
+
+_t :: R2 t => Lens' (t a) a
+_t = _y
+
+_p :: R3 t => Lens' (t a) a
+_p = _z
+
+_q :: R4 t => Lens' (t a) a
+_q = _w
+
+
+_st :: R2 t => Lens' (t a) (V2 a)
+_st = _xy
+
+_stp :: R3 t => Lens' (t a) (V3 a)
+_stp = _xyz
