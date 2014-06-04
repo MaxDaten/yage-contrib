@@ -1,5 +1,6 @@
 yage-contrib
 ============
+[![Stories in Ready](https://badge.waffle.io/maxdaten/yage.png?label=ready&title=Ready)](http://waffle.io/maxdaten/yage)
 
 own prelude and utility
 
