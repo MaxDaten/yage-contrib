@@ -3,7 +3,7 @@
 module Yage.Prelude
     ( module ClassyPrelude
     , io, pass
-    , traceShow', traceShowS, traceShowS', ioTime, printIOTime, traceWith
+    , traceId, traceShowS, traceShowS', ioTime, printIOTime, traceWith
 
     -- list functions
     , zipWithTF
@@ -43,9 +43,6 @@ io = liftIO
 
 pass :: IO ()
 pass = return ()
-
-traceShow' :: Show a => a -> a
-traceShow' a = traceShow a a
 
 traceShowS :: Show a => ShowS -> a -> a
 traceShowS sf a = traceShow (sf $ show a) a

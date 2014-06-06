@@ -36,8 +36,13 @@ rad2deg x = x * 180 / pi
 clamp :: Ord a => a -> a -> a -> a
 clamp upper lower = max lower . min upper
 
-fromTransformation :: M44 a -> M33 a
-fromTransformation
+-- | convert a 4x4 matrix to a 3x3 matrix by dropping
+-- last column and row
+--
+-- >>> m44_to_m33 (V4 (V4 a b c d) (V4 e f g h) (V4 i j k l) (V4 m n o p))
+-- V3 (V3 a b c) (V3 e f g) (V3 i j k)
+m44_to_m33 :: M44 a -> M33 a
+m44_to_m33
     (V4 (V4 a b c _)
         (V4 d e f _)
         (V4 g h i _)
