@@ -25,16 +25,21 @@ module Yage.Prelude
     ) where
 
 import qualified Prelude                   as Prelude
+import           ClassyPrelude
+
 import           Data.Text.Format          as TF hiding ( print )
 import           Data.Text.Format.Params   ( Params )
 import qualified Data.Text.Format          as TF ( print, )
-import           ClassyPrelude
+
 import           Data.Typeable
 import           Data.Traversable          as Trav
 import           Data.Foldable             as Fold
 import           Data.Functor.Identity
 import           Data.Default              as Default
+
 import           Control.DeepSeq           as DeepSeq
+import           Control.DeepSeq.Generics  as DeepSeq
+
 
 import           Filesystem.Path.CurrentOS as FilePath (decodeString,
                                                         encodeString)
