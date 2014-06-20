@@ -44,6 +44,7 @@ library
                        Data.Digest.XXHash
                        Foreign.Storable.Utils
                        Foreign.C.Types.Binary
+                       Foreign.C.Types.DeepSeq
 
                        JuicySRGB
 

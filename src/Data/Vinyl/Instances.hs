@@ -8,7 +8,7 @@
 -- | orphan instances for vinyl
 module Data.Vinyl.Instances () where
 
-import Yage.Prelude (Eq(..))
+import Yage.Prelude (Eq(..), NFData(..), seq)
 
 import Control.Monad
 
@@ -31,3 +31,9 @@ instance (Binary t, Binary (PlainRec fs)) => Binary (PlainRec ((sy ::: t) ': fs)
 
 instance Eq a => Eq (Identity a) where
     (Identity a) == (Identity b) = a == b
+
+
+instance NFData (Rec '[] f) where
+
+instance (NFData t, NFData (PlainRec rs)) => NFData (PlainRec ((sy ::: t) ': rs)) where
+    rnf (Identity x :& xs) = x `seq` rnf xs
