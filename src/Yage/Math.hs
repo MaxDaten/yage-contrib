@@ -72,11 +72,15 @@ normals vs = map norms $ chunksOf 3 vs
 
 
 -- | normalized sum vector
-averageNorm :: (Num (f a), Epsilon a, Metric f, Floating a) => [f a] -> f a
+averageNorm :: (Num (v a), Epsilon a, Metric v, Floating a, MonoFoldable f, Element f ~ (v a)) => f -> v a
 averageNorm = normalize . sum
 
--- | uses the Gram-Schmidt to create a orthogonal basis 
-orthogonalize :: (Num a) => (M33 a) -> (M33 a)
+-- | uses the Gram-Schmidt to create a orthogonal basis
+orthogonalize :: (Num a) => 
+    (M33 a) -> 
+    -- ^ Basis (Tangent (x), Bitangent (y), Normal (z))
+    (M33 a)
+    -- ^ resulting orthogonal basis (without normalization)
 orthogonalize (V3 t b n) =
     let t' = t - (n `dot` t)*^n
         b' = b - (n `dot` b)*^n - (t' `dot` b)*^t'

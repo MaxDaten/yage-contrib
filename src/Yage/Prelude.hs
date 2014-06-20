@@ -3,7 +3,8 @@
 module Yage.Prelude
     ( module ClassyPrelude
     , io, pass
-    , traceId, traceShowS, traceShowS', ioTime, printIOTime, traceWith
+    , traceShowS, traceShowS', ioTime, printIOTime, traceWith
+    , printTF
 
     -- list functions
     , zipWithTF
@@ -15,26 +16,30 @@ module Yage.Prelude
     , isLeft, isRight
     , Identity()
 
-    , module Text.Format
     , module Text.Show
+    , module TF
     , module FilePath
+    , module DeepSeq
     , module Default
     , module Prelude
     ) where
 
 import qualified Prelude                   as Prelude
+import           Data.Text.Format          as TF hiding ( print )
+import           Data.Text.Format.Params   ( Params )
+import qualified Data.Text.Format          as TF ( print, )
 import           ClassyPrelude
 import           Data.Typeable
 import           Data.Traversable          as Trav
 import           Data.Foldable             as Fold
 import           Data.Functor.Identity
 import           Data.Default              as Default
+import           Control.DeepSeq           as DeepSeq
 
 import           Filesystem.Path.CurrentOS as FilePath (decodeString,
                                                         encodeString)
 import           Foreign.Ptr
 import           System.CPUTime
-import           Text.Format
 import           Text.Printf
 import           Text.Show
 
@@ -53,6 +58,8 @@ traceShowS' msg = traceShowS (msg Prelude.++)
 traceWith :: Show b => (a -> b) -> a -> a
 traceWith f a = traceShow (f a) a
 
+printTF :: (MonadIO m, Params ps) => Format -> ps -> m ()
+printTF = TF.print
 
 -- | time a monadic action in seconds, the monadic value is strict evaluated
 ioTime :: MonadIO m => m a -> m (a, Double)
@@ -105,6 +112,6 @@ isRight _        = False
 
 
 zipWithTF :: (Traversable t, Foldable f) => (a -> b -> c) -> t a -> f b -> t c
-zipWithTF g t f = snd (mapAccumL map_one (Fold.toList f) t)
+zipWithTF g t f = snd (Trav.mapAccumL map_one (Fold.toList f) t)
   where map_one (x:xs) y = (xs, g y x)
         map_one _ _ = error "Yage.Prelude.zipWithTF"

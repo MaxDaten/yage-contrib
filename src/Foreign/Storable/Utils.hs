@@ -21,7 +21,7 @@ data SomeStorable = forall s. (Storable s, Typeable s) => SomeStorable s
     deriving (Typeable)
 
 instance Show SomeStorable where
-    show (SomeStorable s) = format "SomeStorable { alignment: {0}, size: {1} }" [show . alignment $ s, show . sizeOf $ s] 
+    show (SomeStorable s) = unpack $ format "SomeStorable { alignment: {}, size: {} }" (Shown $ alignment s, Shown $ sizeOf s) 
 
 instance Storable SomeStorable where
     sizeOf (SomeStorable s) = sizeOf s
