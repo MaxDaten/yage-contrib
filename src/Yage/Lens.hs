@@ -1,5 +1,7 @@
 {-# OPTIONS_GHC -fno-warn-orphans #-}
-{-# LANGUAGE TypeFamilies #-}
+{-# LANGUAGE TypeFamilies  #-}
+{-# LANGUAGE TypeOperators #-}
+{-# LANGUAGE DataKinds     #-}
 {-# LANGUAGE Arrows #-}
 module Yage.Lens (
       module Yage.Lens
@@ -8,7 +10,9 @@ module Yage.Lens (
 
 import Prelude (id, const, flip, uncurry)
 import Data.Maybe
-import Control.Arrow
+import Data.Vinyl
+
+import Control.Arrow hiding ((<+>))
 import Data.Trie as Trie
 import Data.ByteString
 import Control.Monad.State (execState, State)
@@ -17,7 +21,7 @@ import Control.Applicative (pure)
 
 import Control.Lens as Lens
 
-infixr 4 %?~
+infixr 4 %?~, <<+>~
 
 
 -- | TODO a maybe modify operator
@@ -45,6 +49,14 @@ instance At (Trie a) where
 
 update :: a -> State a m -> a
 update = flip execState
+{-# INLINE update #-}
+
+
+(<<+>~) ::Setting (->) s t (Rec as f) (Rec (as ++ bs) f)
+      -> Rec bs f -> s -> t
+(<<+>~) u v = u %~ (\v' -> v' <+> v)
+{-# INLINE (<<+>~) #-}
+
 
 -- http://www.reddit.com/r/haskell/comments/1nwetz/lenses_that_work_with_arrows/cd2w5f1
 -- https://gist.github.com/fizbin/7217274
@@ -53,3 +65,4 @@ setter <~~ arrval =
   proc x -> do
     bval <- arrval -< x
     returnA -< x & setter .~ bval
+{-# INLINE (<~~) #-}

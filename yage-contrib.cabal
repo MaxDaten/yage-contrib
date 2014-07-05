@@ -48,6 +48,7 @@ library
 
                        JuicySRGB
 
+  ghc-options:          -j8
 
   If flag(perf)
     ghc-options:        -threaded -O2
@@ -99,7 +100,7 @@ test-suite specs
     other-modules:     MathNormalTest
                        VectorInterleaveTest
 
-    ghc-options:       -Wall
+    ghc-options:       -Wall -j8
     default-language:  Haskell2010
 
 
