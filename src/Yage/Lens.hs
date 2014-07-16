@@ -8,12 +8,12 @@ module Yage.Lens (
     , module Lens
     ) where
 
-import Prelude (id, const, flip, uncurry)
+import Prelude (id, const, flip)
 import Data.Maybe
-import Data.Vinyl
 
 import Control.Arrow hiding ((<+>))
 import Data.Trie as Trie
+import Data.Vinyl
 import Data.ByteString
 import Control.Monad.State (execState, State)
 
@@ -52,8 +52,8 @@ update = flip execState
 {-# INLINE update #-}
 
 
-(<<+>~) ::Setting (->) s t (Rec as f) (Rec (as ++ bs) f)
-      -> Rec bs f -> s -> t
+(<<+>~) ::Setting (->) s t (Rec el f as) (Rec el f (as ++ bs))
+      -> Rec el f bs -> s -> t
 (<<+>~) u v = u %~ (\v' -> v' <+> v)
 {-# INLINE (<<+>~) #-}
 
