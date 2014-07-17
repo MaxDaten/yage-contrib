@@ -18,6 +18,7 @@ module Yage.Prelude
 
     , module Text.Show
     , module TF
+    , module TextRead
     , module FilePath
     , module DeepSeq
     , module Default
@@ -30,6 +31,7 @@ import           ClassyPrelude
 import           Data.Text.Format          as TF hiding ( print )
 import           Data.Text.Format.Params   ( Params )
 import qualified Data.Text.Format          as TF ( print, )
+import           Data.Text.Read            as TextRead
 
 import           Data.Typeable
 import           Data.Traversable          as Trav
