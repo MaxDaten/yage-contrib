@@ -31,8 +31,9 @@ Flag perf
 library
   exposed-modules:     Yage.Prelude
                        Yage.Lens
-                       
                        Yage.Math
+                       Yage.TH
+
                        Linear.DeepSeq
 
                        Yage.Data.List
@@ -60,14 +61,16 @@ library
   -- other-modules:       
   -- other-extensions:    
   build-depends:         base                   <  5
-  -- important to stick with a concrete prelude version
+                       -- important to stick with a concrete prelude version
                        , classy-prelude         == 0.9.2
+                       
+                       , template-haskell      <  3
                        , transformers           == 0.4.*
                        , mtl                    == 2.2.*
                        , primitive              == 0.5.*
                        , text-format            == 0.3.*
                        , text                   == 1.1.*
-                       , vinyl                  == 0.4.*
+                       , vinyl                  == 0.4.3
                        , bytestring             == 0.10.*
                        , bytestring-trie        == 0.2.*
                        , lens                   == 4.3.*
