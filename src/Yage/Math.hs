@@ -17,24 +17,32 @@ xAxis = V3 1 0 0
 yAxis = V3 0 1 0
 zAxis = V3 0 0 1
 
--- | a plain in 3d space in plain normal form 
+-- | a plain in 3d space in plain normal form
 type Plain3DNF a = (V3 a, V3 a, V3 a)
 
 infixl 7 ><
 
-(><):: Num a => V3 a -> V3 a -> V3 a
+(><) :: Num a => V3 a -> V3 a -> V3 a
 (><) = cross
+{-# INLINE (><) #-}
+
 
 -- | Convert degrees to radians.
 deg2rad :: RealFloat a => a -> a
 deg2rad x = x * pi / 180
+{-# INLINE deg2rad #-}
 
 
 rad2deg :: RealFloat a => a -> a
 rad2deg x = x * 180 / pi
+{-# INLINE rad2deg #-}
+
 
 clamp :: Ord a => a -> a -> a -> a
-clamp upper lower = max lower . min upper
+clamp val lower upper = max lower . min upper $ val
+{-# SPECIALIZE INLINE clamp :: Int -> Int -> Int -> Int #-}
+{-# SPECIALIZE INLINE clamp :: Float -> Float -> Float -> Float #-}
+{-# SPECIALIZE INLINE clamp :: Double -> Double -> Double -> Double #-}
 
 -- | convert a 4x4 matrix to a 3x3 matrix by dropping
 -- last column and row
@@ -57,7 +65,7 @@ normal v1 v2 = normalize $ cross v1 v2
 
 -- | calculates a plain in normal form from three position vectors
 plainNormalForm :: (Num a, Floating a, Epsilon a) => V3 a -> V3 a -> V3 a -> Plain3DNF a
-plainNormalForm v1 v2 v3 = 
+plainNormalForm v1 v2 v3 =
     let n = normal (v2 - v1) (v2 - v3)
         p = v1
         q = v2
@@ -76,8 +84,8 @@ averageNorm :: (Num (v a), Epsilon a, Metric v, Floating a, MonoFoldable f, Elem
 averageNorm = normalize . sum
 
 -- | uses the Gram-Schmidt to create a orthogonal basis
-orthogonalize :: (Num a) => 
-    (M33 a) -> 
+orthogonalize :: (Num a) =>
+    (M33 a) ->
     -- ^ Basis (Tangent (x), Bitangent (y), Normal (z))
     (M33 a)
     -- ^ resulting orthogonal basis (without normalization)
