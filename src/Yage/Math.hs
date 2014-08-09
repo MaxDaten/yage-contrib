@@ -4,11 +4,13 @@
 module Yage.Math
     ( module Yage.Math
     , module Linear
+    , module Yage.Math.Instances
     ) where
 
 import Yage.Prelude hiding ((++))
 import Yage.Lens
 import Yage.Data.List hiding (any, map, sum)
+import Yage.Math.Instances ()
 import Data.Binary
 import Linear
 

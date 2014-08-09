@@ -47,6 +47,8 @@ library
                        Foreign.C.Types.DeepSeq
 
                        JuicySRGB
+  other-modules:       
+                       Yage.Math.Instances
 
   ghc-options:          -j8
 
@@ -73,6 +75,7 @@ library
                        , vinyl                  == 0.4.3
                        , bytestring             == 0.10.*
                        , bytestring-trie        == 0.2.*
+                       , aeson                  == 0.8.*
                        , lens                   == 4.3.*
                        , linear                 == 1.10.*
                        , vector                 >= 0.10
