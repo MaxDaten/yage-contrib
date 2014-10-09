@@ -32,12 +32,14 @@ infixl 7 ><
 -- | Convert degrees to radians.
 deg2rad :: RealFloat a => a -> a
 deg2rad x = x * pi / 180
-{-# INLINE deg2rad #-}
+{-# SPECIALIZE INLINE deg2rad :: Float -> Float #-}
+{-# SPECIALIZE INLINE deg2rad :: Double -> Double #-}
 
 
 rad2deg :: RealFloat a => a -> a
 rad2deg x = x * 180 / pi
-{-# INLINE rad2deg #-}
+{-# SPECIALIZE INLINE rad2deg :: Float -> Float #-}
+{-# SPECIALIZE INLINE rad2deg :: Double -> Double #-}
 
 
 clamp :: Ord a => a -> a -> a -> a
