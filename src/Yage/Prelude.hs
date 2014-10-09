@@ -1,4 +1,4 @@
-{-# OPTIONS_GHC -fno-warn-type-defaults -fno-warn-orphans #-}
+{-# OPTIONS_GHC -fno-warn-type-defaults -fno-warn-orphans -fno-warn-missing-fields #-}
 {-# LANGUAGE StandaloneDeriving #-}
 module Yage.Prelude
     ( module ClassyPrelude
@@ -15,6 +15,8 @@ module Yage.Prelude
     , (<?), (?>)
     , isLeft, isRight
     , Identity()
+
+    , qStr
 
     , module Text.Show
     , module TF
@@ -49,6 +51,8 @@ import           Foreign.Ptr
 import           System.CPUTime
 import           Text.Printf
 import           Text.Show
+import           Language.Haskell.TH
+import           Language.Haskell.TH.Quote
 
 io :: (MonadIO m) => IO a -> m a
 io = liftIO
@@ -122,3 +126,6 @@ zipWithTF :: (Traversable t, Foldable f) => (a -> b -> c) -> t a -> f b -> t c
 zipWithTF g t f = snd (Trav.mapAccumL map_one (Fold.toList f) t)
   where map_one (x:xs) y = (xs, g y x)
         map_one _ _ = error "Yage.Prelude.zipWithTF"
+
+qStr :: QuasiQuoter
+qStr = QuasiQuoter { quoteExp = stringE }
