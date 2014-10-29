@@ -4,7 +4,6 @@
 module Yage.Math
     ( module Yage.Math
     , module Linear
-    , module Yage.Math.Instances
     ) where
 
 import Yage.Prelude hiding ((++))
