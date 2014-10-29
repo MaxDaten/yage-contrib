@@ -60,6 +60,7 @@ library
   build-depends:         base                   <  5
                        -- important to stick with a concrete prelude version
                        , classy-prelude         == 0.9.2
+                       , mono-traversable       >= 0.6
                        
                        , template-haskell      <  3
                        , transformers           == 0.4.*
