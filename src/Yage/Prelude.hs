@@ -24,9 +24,6 @@ module Yage.Prelude
     , module FilePath
     , module DeepSeq
     , module Default
-
-    , module Data.NonNull
-    -- ^ for convinience MinLen (Succ Zero) a
     , module Prelude
     ) where
 
@@ -41,7 +38,6 @@ import           Data.Text.Read            as TextRead
 import           Data.Typeable
 import           Data.Traversable          as Trav
 import           Data.Foldable             as Fold
-import qualified Data.NonNull
 import           Data.Functor.Identity
 import           Data.Default              as Default
 
