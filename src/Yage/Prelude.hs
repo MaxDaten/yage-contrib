@@ -1,5 +1,6 @@
 {-# OPTIONS_GHC -fno-warn-type-defaults -fno-warn-orphans -fno-warn-missing-fields #-}
 {-# LANGUAGE StandaloneDeriving #-}
+{-# LANGUAGE DeriveDataTypeable #-}
 module Yage.Prelude
     ( module ClassyPrelude
     , io, pass
@@ -36,6 +37,7 @@ import qualified Data.Text.Format          as TF ( print, )
 import           Data.Text.Read            as TextRead
 
 import           Data.Typeable
+import           Data.Data
 import           Data.Traversable          as Trav
 import           Data.Foldable             as Fold
 import           Data.Functor.Identity
@@ -129,3 +131,9 @@ zipWithTF g t f = snd (Trav.mapAccumL map_one (Fold.toList f) t)
 
 qStr :: QuasiQuoter
 qStr = QuasiQuoter { quoteExp = stringE }
+
+
+deriving instance Data Zero
+deriving instance Typeable Zero
+deriving instance Data a => Data (Succ a)
+deriving instance Typeable Succ
