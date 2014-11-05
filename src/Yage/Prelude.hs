@@ -6,6 +6,7 @@ module Yage.Prelude
     , io, pass
     , traceShowS, traceShowS', ioTime, printIOTime, traceWith
     , printTF
+    , asString
 
     -- list functions
     , zipWithTF
@@ -132,6 +133,10 @@ zipWithTF g t f = snd (Trav.mapAccumL map_one (Fold.toList f) t)
 qStr :: QuasiQuoter
 qStr = QuasiQuoter { quoteExp = stringE }
 
+
+asString :: String -> String
+asString = id
+{-# INLINE asString #-}
 
 deriving instance Data Zero
 deriving instance Typeable Zero
