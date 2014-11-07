@@ -7,6 +7,7 @@ module Yage.Prelude
     , traceShowS, traceShowS', ioTime, printIOTime, traceWith
     , printTF
     , asString
+    , globFp
 
     -- list functions
     , zipWithTF
@@ -52,6 +53,7 @@ import           Filesystem.Path.CurrentOS as FilePath (decodeString,
                                                         encodeString)
 import           Foreign.Ptr
 import           System.CPUTime
+import           System.FilePath.Glob
 import           Text.Printf
 import           Text.Show
 import           Language.Haskell.TH
@@ -81,7 +83,7 @@ ioTime action = do
     start <- io $! getCPUTime
     v <- action
     end <- v `seq` io $! getCPUTime
-    let diff = (fromIntegral (end - start)) / (10^12)
+    let diff = (fromIntegral (end - start)) / (10^(12::Int))
     return $! (v, diff)
 
 
@@ -137,6 +139,15 @@ qStr = QuasiQuoter { quoteExp = stringE }
 asString :: String -> String
 asString = id
 {-# INLINE asString #-}
+
+
+-- | utility function to glob with a 'Filesystem.Path.FilePath'
+--
+-- > globFp ( "foo" </> "bar" </> "*<->.jpg" )
+-- > ["foo/bar/image01.jpg", "foo/bar/image02.jpg"]
+globFp :: MonadIO m => FilePath -> m [FilePath]
+globFp = io . fmap (map fpFromString) . glob . fpToString
+{-# INLINE globFp #-}
 
 deriving instance Data Zero
 deriving instance Typeable Zero
