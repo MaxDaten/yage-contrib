@@ -34,6 +34,8 @@ import qualified Prelude                   as Prelude
 import           ClassyPrelude
 
 import           Data.Text.Format          as TF hiding ( print )
+import           Data.Text.Buildable
+import           Data.Text.Lazy.Builder
 import           Data.Text.Format.Params   ( Params )
 import qualified Data.Text.Format          as TF ( print, )
 import           Data.Text.Read            as TextRead
@@ -153,3 +155,6 @@ deriving instance Data Zero
 deriving instance Typeable Zero
 deriving instance Data a => Data (Succ a)
 deriving instance Typeable Succ
+
+instance Buildable FilePath where
+    build = fromText . fpToText
