@@ -6,7 +6,6 @@ module Yage.Prelude
     , io, pass
     , traceShowS, traceShowS', ioTime, printIOTime, traceWith
     , printTF
-    , asString
     , globFp
 
     -- list functions
@@ -23,11 +22,11 @@ module Yage.Prelude
 
     , module Text.Show
     , module TF
-    , module TextRead
     , module FilePath
     , module DeepSeq
     , module Default
     , module Prelude
+    , module Proxy
     ) where
 
 import qualified Prelude                   as Prelude
@@ -38,13 +37,13 @@ import           Data.Text.Buildable
 import           Data.Text.Lazy.Builder
 import           Data.Text.Format.Params   ( Params )
 import qualified Data.Text.Format          as TF ( print, )
-import           Data.Text.Read            as TextRead
 
 import           Data.Typeable
 import           Data.Data
+import           Data.Proxy                as Proxy
 import           Data.Traversable          as Trav
 import           Data.Foldable             as Fold
-import           Data.Functor.Identity
+import           Data.Functor.Identity     ()
 import           Data.Default              as Default
 
 import           Control.DeepSeq           as DeepSeq
@@ -137,10 +136,6 @@ zipWithTF g t f = snd (Trav.mapAccumL map_one (Fold.toList f) t)
 qStr :: QuasiQuoter
 qStr = QuasiQuoter { quoteExp = stringE }
 
-
-asString :: String -> String
-asString = id
-{-# INLINE asString #-}
 
 
 -- | utility function to glob with a 'Filesystem.Path.FilePath'
