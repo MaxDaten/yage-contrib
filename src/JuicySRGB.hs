@@ -49,7 +49,7 @@ instance Pixel PixelSRGB8 where
                                                                             (arr ! (baseIdx + 1))
                                                                             (arr ! (baseIdx + 2))
         where baseIdx = pixelBaseIndex image x y
-    
+
     readPixel image@(MutableImage { mutableImageData = arr }) x y = do
         rv <- arr .!!!. baseIdx
         gv <- arr .!!!. (baseIdx + 1)
@@ -65,12 +65,12 @@ instance Pixel PixelSRGB8 where
 
     unsafePixelAt v idx =
         PixelSRGB8 $ PixelRGB8 (V.unsafeIndex v idx) (V.unsafeIndex v $ idx + 1) (V.unsafeIndex v $ idx + 2)
-    
+
     unsafeReadPixel vec idx =
         mkPixelSRGB8 `liftM` M.unsafeRead vec idx
                         `ap` M.unsafeRead vec (idx + 1)
                         `ap` M.unsafeRead vec (idx + 2)
-    
+
     unsafeWritePixel v idx (PixelSRGB8 (PixelRGB8 r g b)) = do
         M.unsafeWrite v idx r
         M.unsafeWrite v (idx + 1) g
@@ -108,6 +108,12 @@ instance (Floating a, RealFrac a) => ColourPixel a PixelSRGB8 where
 instance (Floating a, RealFrac a) => ColourPixel a PixelRGB8 where
     colourToPixel = C.uncurryRGB PixelRGB8 . toLinearBounded
 
+instance (Floating a, RealFrac a) => ColourPixel a PixelRGBA8 where
+    colourToPixel = C.uncurryRGB (\r g b -> PixelRGBA8 r g b 1) . toLinearBounded
+
+instance (Floating a, RealFrac a) => ColourPixel a Pixel8 where
+    colourToPixel c = computeLuma (colourToPixel c :: PixelRGB8)
+
 -- just helpers
 
 castToSRGB8 :: Image PixelRGB8 -> Image PixelSRGB8
@@ -141,7 +147,7 @@ mkPixelSRGB8 r g b = PixelSRGB8 $ PixelRGB8 r g b
 -- the values are normalized with their maxBound
 -- no transfer function is applied
 {-# INLINE linRGB24 #-}
-linRGB24 :: (Ord b, Floating b, Integral a, Bounded a) => 
+linRGB24 :: (Ord b, Floating b, Integral a, Bounded a) =>
             a -> a -> a -> C.Colour b
 linRGB24 r g b = C.uncurryRGB Linear.rgb $ fmap normalize $ Linear.RGB r g b
     where
