@@ -14,14 +14,14 @@ instance Storable () where
     sizeOf _ = 0
     peek _ = return ()
     alignment _ = 0
-    poke _ _ = return () 
+    poke _ _ = return ()
 
 
 data SomeStorable = forall s. (Storable s, Typeable s) => SomeStorable s
     deriving (Typeable)
 
 instance Show SomeStorable where
-    show (SomeStorable s) = unpack $ format "SomeStorable { alignment: {}, size: {} }" (Shown $ alignment s, Shown $ sizeOf s) 
+    show (SomeStorable s) = printf "SomeStorable { alignment: %d, size: %d }" (alignment s) (sizeOf s)
 
 instance Storable SomeStorable where
     sizeOf (SomeStorable s) = sizeOf s

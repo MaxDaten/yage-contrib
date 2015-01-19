@@ -5,7 +5,6 @@ module Yage.Prelude
     ( module ClassyPrelude
     , io, pass
     , traceShowS, traceShowS', ioTime, printIOTime, traceWith
-    , printTF
     , globFp
 
     -- list functions
@@ -21,23 +20,18 @@ module Yage.Prelude
     , qStr
 
     , module Text.Show
-    , module TF
     , module FilePath
     , module DeepSeq
     , module Default
     , module Prelude
     , module Proxy
+    , module Printf
     ) where
 
 import qualified Prelude                   as Prelude
 import           ClassyPrelude
 
-import           Data.Text.Format          as TF hiding ( print )
-import           Data.Text.Buildable
-import           Data.Text.Lazy.Builder
-import           Data.Text.Format.Params   ( Params )
-import qualified Data.Text.Format          as TF ( print, )
-
+import           Text.Printf               as Printf (printf)
 import           Data.Typeable
 import           Data.Data
 import           Data.Proxy                as Proxy
@@ -74,9 +68,6 @@ traceShowS' msg = traceShowS (msg Prelude.++)
 
 traceWith :: Show b => (a -> b) -> a -> a
 traceWith f a = traceShow (f a) a
-
-printTF :: (MonadIO m, Params ps) => Format -> ps -> m ()
-printTF = TF.print
 
 -- | time a monadic action in seconds, the monadic value is strict evaluated
 ioTime :: MonadIO m => m a -> m (a, Double)
@@ -150,6 +141,3 @@ deriving instance Data Zero
 deriving instance Typeable Zero
 deriving instance Data a => Data (Succ a)
 deriving instance Typeable Succ
-
-instance Buildable FilePath where
-    build = fromText . fpToText
