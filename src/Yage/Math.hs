@@ -1,6 +1,7 @@
 {-# OPTIONS_GHC -fno-warn-missing-signatures -fno-warn-orphans #-}
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE TypeFamilies    #-}
+{-# LANGUAGE ScopedTypeVariables    #-}
 module Yage.Math
     ( module Yage.Math
     , module Linear
@@ -46,6 +47,12 @@ clamp val lower upper = max lower . min upper $ val
 {-# SPECIALIZE INLINE clamp :: Int -> Int -> Int -> Int #-}
 {-# SPECIALIZE INLINE clamp :: Float -> Float -> Float -> Float #-}
 {-# SPECIALIZE INLINE clamp :: Double -> Double -> Double -> Double #-}
+
+fmod :: forall a. RealFrac a => a -> a -> a
+fmod a b = b * snd (properFraction $ a / b :: (Int, a))
+{-# SPECIALIZE INLINE fmod :: Float -> Float -> Float #-}
+{-# SPECIALIZE INLINE fmod :: Double -> Double -> Double #-}
+
 
 -- | convert a 4x4 matrix to a 3x3 matrix by dropping
 -- last column and row
