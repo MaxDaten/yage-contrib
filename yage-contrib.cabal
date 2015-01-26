@@ -39,8 +39,6 @@ library
                        Yage.Data.List
                        Data.Vector.Storable.Extras
                        
-                       Data.Vinyl.Instances
-                       
                        Foreign.Storable.Utils
                        Foreign.Storable.Generic
                        Foreign.C.Types.Binary
@@ -70,7 +68,6 @@ library
                        , contravariant          >= 1.2
                        , void                   >= 0.6
                        , text                   >= 1.1
-                       , vinyl                  == 0.4.3
                        , bytestring             >= 0.10
                        , bytestring-trie        >= 0.2
                        , aeson                  >= 0.8

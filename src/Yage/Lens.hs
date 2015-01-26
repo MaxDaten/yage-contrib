@@ -14,7 +14,6 @@ import Data.Maybe
 
 import Control.Arrow hiding ((<+>))
 import Data.Trie as Trie
-import Data.Vinyl
 import Data.ByteString
 import Data.ByteString.Lens as BSLens
 
@@ -23,9 +22,6 @@ import Control.Monad.State (execState, State)
 import Control.Applicative (pure)
 
 import Control.Lens as Lens
-
-infixr 4 %?~, <<+>~
-
 
 -- | TODO a maybe modify operator
 (%?~) :: ASetter' s a -> Maybe a -> s -> s
@@ -54,11 +50,6 @@ update :: a -> State a m -> a
 update = flip execState
 {-# INLINE update #-}
 
-
-(<<+>~) ::Setting (->) s t (Rec el f as) (Rec el f (as ++ bs))
-      -> Rec el f bs -> s -> t
-(<<+>~) u v = u %~ (\v' -> v' <+> v)
-{-# INLINE (<<+>~) #-}
 
 infixr 2 <~~
 -- http://www.reddit.com/r/haskell/comments/1nwetz/lenses_that_work_with_arrows/cd2w5f1
