@@ -4,7 +4,7 @@
 module Yage.Prelude
     ( module ClassyPrelude
     , io, pass
-    , traceShowS, traceShowS', ioTime, printIOTime, traceWith
+    , traceShowS, traceShowS', ioTime, printIOTime, traceWith, traceStack
     , globFp
 
     -- list functions
@@ -53,6 +53,7 @@ import           Text.Printf
 import           Text.Show
 import           Language.Haskell.TH
 import           Language.Haskell.TH.Quote
+import           Debug.Trace (traceStack)
 
 io :: (MonadIO m) => IO a -> m a
 io = liftIO
