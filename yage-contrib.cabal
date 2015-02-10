@@ -34,8 +34,6 @@ library
                        Yage.Math
                        Yage.TH
 
-                       Linear.DeepSeq
-
                        Yage.Data.List
                        Data.Vector.Storable.Extras
                        
