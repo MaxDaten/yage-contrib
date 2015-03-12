@@ -121,26 +121,8 @@ genNormals vs =
 isValid :: (MonoFoldable c, RealFloat t, Element c ~ t) => c -> Bool
 isValid a = any (\b -> isNaN b || isInfinite b) a
 
----------------------------------------------------------------------------------------------------
-instance Binary a => Binary (V1 a) where
-    put = putLinear
-    get = getLinear
-
-instance Binary a => Binary (V2 a) where
-    put = putLinear
-    get = getLinear
-
-instance Binary a => Binary (V3 a) where
-    put = putLinear
-    get = getLinear
-
-instance Binary a => Binary (V4 a) where
-    put = putLinear
-    get = getLinear
-
-
 {--
-OpenGL Alias
+OpenGL Aliases
 --}
 
 -- Textures Coords
